@@ -126,3 +126,43 @@
   </style>
 </head>
 <body>
+
+  <!-- Home Page -->
+  <div class="home" id="homePage">
+    <h1>Welcome to Influencer Monitoring</h1>
+    <button class="glow-btn" onclick="goToForm()">Get Started</button>
+  </div>
+
+  <!-- Form Page -->
+  <div class="form-container" id="formPage">
+    <div class="card">
+      <h2>Influencer Monitoring</h2>
+      <form>
+        <label>Add New Influencer</label>
+        <input type="text" placeholder="Enter Influencer Name" required>
+
+        <label>Social Media Handle:</label>
+        <div class="checkbox-group">
+          <label class="checkbox-label"><input type="checkbox"> YouTube</label>
+          <label class="checkbox-label"><input type="checkbox"> Instagram</label>
+          <label class="checkbox-label"><input type="checkbox"> LinkedIn</label>
+          <label class="checkbox-label"><input type="checkbox"> TikTok</label>
+        </div>
+
+        <label>Your Email</label>
+        <input type="email" placeholder="Enter your email" required>
+        <small>*48-hour report will be sent to your email.</small><br><br>
+
+        <button type="submit" class="submit-btn">SUBMIT</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function goToForm() {
+      document.getElementById("homePage").style.display = "none";
+      document.getElementById("formPage").style.display = "flex";
+    }
+  </script>
+</body>
+</html>
