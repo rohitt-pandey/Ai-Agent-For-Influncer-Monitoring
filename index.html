@@ -114,6 +114,14 @@
       box-shadow: 0 0 30px #00eaff, 0 0 60px #00eaff;
     }
 
+    .success-message {
+      display: none;
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 15px;
+      color: #00ffcc;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -137,23 +145,24 @@
   <div class="form-container" id="formPage">
     <div class="card">
       <h2>Influencer Monitoring</h2>
-      <form>
+      <form id="influencerForm">
         <label>Add New Influencer</label>
-        <input type="text" placeholder="Enter Influencer Name" required>
+        <input type="text" name="influencer" placeholder="Enter Influencer Name" required>
 
         <label>Social Media Handle:</label>
         <div class="checkbox-group">
-          <label class="checkbox-label"><input type="checkbox"> YouTube</label>
-          <label class="checkbox-label"><input type="checkbox"> Instagram</label>
-          <label class="checkbox-label"><input type="checkbox"> LinkedIn</label>
-          <label class="checkbox-label"><input type="checkbox"> TikTok</label>
+          <label class="checkbox-label"><input type="checkbox" name="platform" value="YouTube"> YouTube</label>
+          <label class="checkbox-label"><input type="checkbox" name="platform" value="Instagram"> Instagram</label>
+          <label class="checkbox-label"><input type="checkbox" name="platform" value="LinkedIn"> LinkedIn</label>
+          <label class="checkbox-label"><input type="checkbox" name="platform" value="TikTok"> TikTok</label>
         </div>
 
         <label>Your Email</label>
-        <input type="email" placeholder="Enter your email" required>
+        <input type="email" name="email" placeholder="Enter your email" required>
         <small>*48-hour report will be sent to your email.</small><br><br>
 
         <button type="submit" class="submit-btn">SUBMIT</button>
+        <p class="success-message" id="successMsg">✅ Submitted successfully!</p>
       </form>
     </div>
   </div>
@@ -163,6 +172,31 @@
       document.getElementById("homePage").style.display = "none";
       document.getElementById("formPage").style.display = "flex";
     }
+
+    // Google Apps Script Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwJyA0HLSoKWmvZFbFOorcZrJUSaOtExE0SWaWvOZNDvSD_LRJO9mXE4WfvJr0F5tQS/exec";
+    const form = document.getElementById("influencerForm");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      // Collect platforms checked
+      const platforms = Array.from(form.querySelectorAll('input[name="platform"]:checked'))
+                            .map(cb => cb.value)
+                            .join(", ");
+
+      const formData = new FormData(form);
+      formData.append("platforms", platforms);
+
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(() => {
+          successMsg.style.display = "block";
+          form.reset();
+        })
+        .catch(err => alert("Error: " + err.message));
+    });
   </script>
 </body>
 </html>
+
